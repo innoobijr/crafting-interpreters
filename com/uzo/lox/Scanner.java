@@ -36,12 +36,55 @@ class Scanner {
         return tokens;
     }
 
-    /**
+
+
+    // Recognizing Lexemes
+    private void scanToken(){
+        char c = advance();
+        switch (c){
+            case '(': addToken(LEFT_PAREN); break;
+            case ')': addToken(RIGHT_PAREN); break;
+            case '{': addToken(LEFT_BRACE); break;
+            case '}': addToken(RIGHT_BRACE); break;    
+            case ',': addToken(COMMA); break;          
+            case '.': addToken(DOT); break;            
+            case '-': addToken(MINUS); break;          
+            case '+': addToken(PLUS); break;           
+            case ';': addToken(SEMICOLON); break;      
+            case '*': addToken(STAR); break;
+            // for characters that Lox doesnt like
+            default:
+                Lox.error(line, "Unexpected character.");
+                break;
+        }
+    }
+
+     /**
      * The scanner works it way throught the aoruce doe, adding tokens
      * until t runs out of cjaracters, When its done it appends one filen "end of file" token. That
      * isn't strictly needed, but it makes out parses a little cleaner.
      */
     private boolean isAtEnd(){
         return current >= source.length();
+    }
+
+    // Helper methods
+    /**
+     * advance() consumes the nexct character in the source file and returns it.
+     * Where advance() is for input, addToken() is for output. It grabs the text of the current 
+     * lexeme and creates a new token for it.
+     */
+    private char advance(){
+        current++;
+        return source.charAt(current - 1);
+    }
+
+    private void addToken(TokenType type){
+        addToken(type, null);
+    }
+
+    private void addToken(TokenType type, Object literal){
+        String text = source.substring(start, current);
+        tokens.add(new Token(type, text, literal, line));
     }
 }
