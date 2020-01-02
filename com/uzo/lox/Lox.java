@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;                                  
 import java.util.List;  
 
+import com.uzo.lox.*;
+
 public class Lox {
 
     static boolean hadError = false;
@@ -55,7 +57,7 @@ public class Lox {
         List<Token> tokens = scanner.scanTokens();
 
         // For now, just print the tokens
-        for (Tokens token: tokens){
+        for (Token token: tokens){
             System.out.println(token);
         }
     }
@@ -68,8 +70,8 @@ public class Lox {
     }
 
     private static void report(int line, String where, String message){
-        System.err.println("
-        [line " + line + "] Error" + where + ": " + message);
+        System.err.println(""+
+        "[line " + line + "] Error" + where + ": " + message);
         hadError = true;
     }
 
